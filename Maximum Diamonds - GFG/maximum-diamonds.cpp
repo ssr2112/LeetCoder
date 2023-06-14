@@ -14,11 +14,11 @@ class Solution {
         }
         
         long long ans = 0;
-        while(K--){
+        while(K-- && pq.size()){
             int ele = pq.top();
             pq.pop();
             ans += ele;
-            pq.push(ele/2);
+            if(ele/2>0) pq.push(ele/2);
         }
         
         return ans;
