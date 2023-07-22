@@ -22,42 +22,44 @@ private:
 
 public:
    int minStepToReachTarget(vector<int>&KnightPos, vector<int>&TargetPos, int N) {
-
       int srcX = KnightPos[0], srcY = KnightPos[1];
       int tX = TargetPos[0], tY = TargetPos[1];
 
       int dis[8][2] = {{ -2, 1}, { -2, -1}, {2, -1}, {2, 1}, { -1, 2}, { -1, -2}, {1, 2}, {1, -2}};
-
-      int arr[N + 1][N + 1];
+      int cnt = 0;
       memset(vis, 0, sizeof(vis));
-      memset(arr, 0, sizeof(arr));
 
       queue<pair<int, int>> q;
       q.push({srcX, srcY});
       vis[srcX][srcY] = 1;
 
       if (srcX == tX && srcY == tY)
-         return arr[srcX][srcY];
+         return cnt;
 
       while (!q.empty()) {
-         int currX = q.front().first;
-         int currY = q.front().second;
-         q.pop();
+         int sz = q.size();
+         cnt++;
          
-         for (int i = 0; i < 8; i++) {
-            int newX = currX + dis[i][0];
-            int newY = currY + dis[i][1];
+         while(sz--) {
+             int currX = q.front().first;
+             int currY = q.front().second;
+             q.pop();
              
-            if (isValid(newX, newY, N))
-            {
-               arr[newX][newY] = arr[currX][currY] + 1;
-               vis[newX][newY] = 1;
-               q.push({newX, newY});
-
-               if (newX == tX && newY == tY)
-                  return arr[newX][newY];
-            }
-         }
+             for (int i = 0; i < 8; i++) {
+                int newX = currX + dis[i][0];
+                int newY = currY + dis[i][1];
+                 
+                if (isValid(newX, newY, N))
+                {
+                   if (newX == tX && newY == tY)
+                      return cnt;
+                    
+                   vis[newX][newY] = 1;
+                   q.push({newX, newY});
+    
+                }
+             }
+         }  
       }
       
       return -1;
