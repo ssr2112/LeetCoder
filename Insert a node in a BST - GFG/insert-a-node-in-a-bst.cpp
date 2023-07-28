@@ -114,19 +114,13 @@ int main() {
 // } Driver Code Ends
 
 Node* insert(Node* root, int key) {
-    if(key == root->data) return root;
+    if(root == NULL) return new Node(key);
     if(root->data > key) {
-        if(!root->left) {
-            root->left = new Node(key);
-            return root;
-        }
-        else insert(root->left, key);
+        root->left = insert(root->left, key);
     }
-    else {
-        if(!root->right) {
-            root->right = new Node(key);
-            return root;
-        }
-        else insert(root->right, key);
+    else if(root->data < key) {
+        root->right = insert(root->right, key);
     }
+    
+    return root;
 }
